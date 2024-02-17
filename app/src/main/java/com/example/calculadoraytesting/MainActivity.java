@@ -2,6 +2,8 @@ package com.example.calculadoraytesting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,27 +15,46 @@ public class MainActivity extends AppCompatActivity {
 
     /* unicializamos nuestras variables las que vamos a llamar y utilizar en nuestra calculadora */
     private Button buttonsum, buttonres, buttonmul, buttondiv, buttonfact, buttonfibo;
+    private Button buttonatras, buttonsiguiente;
     private EditText texto1, texto2;
 
     private TextView textviewresultado;
+    private Intent Intent;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         /* llamamos las variables por medio del id que les otorgamos en el  activity main*/
-        texto1=findViewById(R.id.texto1);
-        texto2=findViewById(R.id.texto2);
-        textviewresultado=findViewById(R.id.resultado);
-        buttonsum=findViewById(R.id.buttonsum);
-        buttonres=findViewById(R.id.buttonres);
-        buttonmul=findViewById(R.id.buttonmulti);
-        buttondiv=findViewById(R.id.buttondiv);
-        buttonfact=findViewById(R.id.buttonfact);
-        buttonfibo=findViewById(R.id.buttonfibo);
+        texto1 = findViewById(R.id.texto1);
+        texto2 = findViewById(R.id.texto2);
+        textviewresultado = findViewById(R.id.resultado);
+        buttonsum = findViewById(R.id.buttonsum);
+        buttonres = findViewById(R.id.buttonres);
+        buttonmul = findViewById(R.id.buttonmulti);
+        buttondiv = findViewById(R.id.buttondiv);
+        buttonfact = findViewById(R.id.buttonfact);
+        buttonfibo = findViewById(R.id.buttonfibo);
+        buttonatras=findViewById(R.id.buttonatras);
+        buttonsiguiente=findViewById(R.id.buttonsiguiente);
 
         /*llamamos a cada boton para que aldarle click llama al respectivo metodo de operacion  */
+        buttonatras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent = new Intent(getApplicationContext(), MainActivity4.class);
+                startActivity(Intent);
+            }
+        });
+        buttonsiguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent=new Intent(getApplicationContext(), MainActivity2.class);
+                startActivity(Intent);
+            }
+        });
         buttonsum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,56 +64,58 @@ public class MainActivity extends AppCompatActivity {
         buttonres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-calcularResta();
+                calcularResta();
             }
         });
         buttonmul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-calcularMultiplicacion();
+                calcularMultiplicacion();
             }
         });
         buttondiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-calcularDivicion();
+                calcularDivicion();
             }
         });
         buttonfact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-calcularFactorial();
+                calcularFactorial();
             }
         });
         buttonfibo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-calcularFibonacci();
+                calcularFibonacci();
             }
         });
         /*creamos los metodos de cada operacion que sonlos que vamos a utilizar al darle onclick a cada boton de operaciones en nuestra calculadora*/
     }
+
     private void calcularSuma() {
         String texto = texto1.getText().toString();
         if (texto.isEmpty()) {
             textviewresultado.setText("ingresa un número en el primer y segundo campo");
             return;
         }
-        double num1=Double.parseDouble(texto1.getText().toString());
-        double num2=Double.parseDouble(texto2.getText().toString());
-        double resultado=num1+num2;
+        double num1 = Double.parseDouble(texto1.getText().toString());
+        double num2 = Double.parseDouble(texto2.getText().toString());
+        double resultado = num1 + num2;
         textviewresultado.setText(String.valueOf(resultado));
 
     }
+
     private void calcularResta() {
         String texto = texto1.getText().toString();
         if (texto.isEmpty()) {
             textviewresultado.setText("ingresa un número en el primer y segundo campo");
             return;
         }
-        double num1=Double.parseDouble(texto1.getText().toString());
-        double num2=Double.parseDouble(texto2.getText().toString());
-        double resultado=num1-num2;
+        double num1 = Double.parseDouble(texto1.getText().toString());
+        double num2 = Double.parseDouble(texto2.getText().toString());
+        double resultado = num1 - num2;
         textviewresultado.setText(String.valueOf(resultado));
     }
 
@@ -102,19 +125,20 @@ calcularFibonacci();
             textviewresultado.setText("ingresa un número en el primer y segundo campo");
             return;
         }
-        double num1=Double.parseDouble(texto1.getText().toString());
-        double num2=Double.parseDouble(texto2.getText().toString());
-        double resultado=num1*num2;
+        double num1 = Double.parseDouble(texto1.getText().toString());
+        double num2 = Double.parseDouble(texto2.getText().toString());
+        double resultado = num1 * num2;
         textviewresultado.setText(String.valueOf(resultado));
     }
+
     private void calcularDivicion() {
         String texto = texto1.getText().toString();
         if (texto.isEmpty()) {
             textviewresultado.setText("ingresa un número en el primer y segundo campo");
             return;
         }
-        double num1=Double.parseDouble(texto1.getText().toString());
-        double num2=Double.parseDouble(texto2.getText().toString());
+        double num1 = Double.parseDouble(texto1.getText().toString());
+        double num2 = Double.parseDouble(texto2.getText().toString());
         if (num2 != 0) {
             double resultado = num1 / num2;
             textviewresultado.setText(String.valueOf(resultado));
@@ -122,8 +146,9 @@ calcularFibonacci();
             textviewresultado.setText("No se puede dividir por cero");
         }
     }
+
     private double calcularFactorial(double n) {
-         {
+        {
             if (n == 0) {
                 return 1;
             } else {
@@ -132,6 +157,7 @@ calcularFibonacci();
         }
 
     }
+
     private void calcularFactorial() {
         String texto = texto1.getText().toString();
         if (texto.isEmpty()) {
@@ -148,6 +174,7 @@ calcularFibonacci();
             textviewresultado.setText("Error: Entrada no válida");
         }
     }
+
     private double calcularFibonacci(double n) {
         if (n <= 2) {
             return 1;
@@ -155,14 +182,16 @@ calcularFibonacci();
             return calcularFibonacci(n - 1) + calcularFibonacci(n - 2);
         }
     }
+
+    @SuppressLint("SuspiciousIndentation")
     private void calcularFibonacci() {
         String texto = texto1.getText().toString();
-        if (texto.isEmpty())
+        if (texto.isEmpty()) {
             textviewresultado.setText("Ingresa un número solo en el primer campo");
             return;
         }
         try {
-            double num1 = Double.parseDouble(texto1.getText().toString());
+            double num1 = Double.parseDouble(texto);
             double resultado = calcularFibonacci(num1);
             textviewresultado.setText(String.valueOf(resultado));
         } catch (NumberFormatException e) {
@@ -170,5 +199,4 @@ calcularFibonacci();
             textviewresultado.setText("Error: Entrada no válida");
         }
     }
-
 }
