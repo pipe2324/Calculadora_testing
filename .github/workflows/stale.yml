@@ -1,0 +1,96 @@
+# This workflow warns and then closes issues and PRs that have had no activity for a specified amount of time.
+#
+# You can adjust the behavior by modifying this file.
+# For more information, see:
+# https://github.com/actions/stale
+name: test_errores
+
+on:
+  schedule:
+    - cron: '37 7 * * *'
+  push:
+    branches:
+      - master
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Run unit tests
+        run: |
+          cd Calculadora_testing/.github/workflows/stale.yml
+          ./gradlew testUnit
+          # Asegurarnos de que los tests tengan éxito
+          if [ $? -eq 0 ]; then
+            echo "Unit tests passed"
+          else
+            echo "Unit tests failed"
+            exit 1
+          fi
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Run integration tests
+        run: |
+          cd Calculadora_testing/.github/workflows/stale.yml
+          ./gradlew testIntegration
+          # Asegurarnos de que los tests tengan éxito
+          if [ $? -eq 0 ]; then
+            echo "Integration tests passed"
+          else
+            echo "Integration tests failed"
+            exit 1
+          fi
+
+  ui-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Download ChromeDriver
+        run: |
+          CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip -q /tmp/chromedriver.zip -d /tmp
+          sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Run UI tests
+        run: |
+          cd Calculadora_testing/.github/workflows/stale.yml
+          ./gradlew testUI
+          # Asegurarnos de que los tests tengan éxito
+          if [ $? -eq 0 ]; then
+            echo "UI tests passed"
+          else
+            echo "UI tests failed"
+            exit 1
+          fi
+
