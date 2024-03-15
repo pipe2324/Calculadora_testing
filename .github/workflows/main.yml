@@ -1,0 +1,12 @@
+name:calculadora
+
+on:
+  push:
+   branches:
+    -'main'
+jobs:
+  hello:
+   runs-on: ubuntu-latest
+   steps:
+    - name: hello step
+      run: echo" HELLO WORKD"
