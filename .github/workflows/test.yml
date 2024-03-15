@@ -1,0 +1,15 @@
+name: Calcular suma
+
+on:
+  push:
+   branches:
+     -'master'
+  pull_request:
+    branches:
+      -'main'
+jobs:
+  calcular:
+   runs-on: ubuntu-latest
+   steps:
+   - name: calcular
+     run: echo "la suma fue exitosa"
